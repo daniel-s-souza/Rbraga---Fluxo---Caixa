@@ -55,5 +55,10 @@ const Singin = (email, password) => {
     localStorage.setItem("userDb", JSON.stringify(newUser))
   };
 
-  return <AuthContext.Provider>{children}</AuthContext.Provider>
+  const signOut = () => {
+    setUser(null);
+    localStorage.removeItem("userToken");
+  }
+
+  return <AuthContext.Provider value={{user, signed: !!user, Singin, signup, signOut}}>{children}</AuthContext.Provider>
 };
