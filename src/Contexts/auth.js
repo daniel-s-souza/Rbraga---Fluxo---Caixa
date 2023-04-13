@@ -35,5 +35,25 @@ const Singin = (email, password) => {
     }
   };
 
+  const signup = (email, password) => {
+    const userStorage = JSON.parse(localStorage.getItem('userDb'));
+
+    const hasUser = userStorage?.filter((user) => user.email === email);
+
+    if (hasUser?.length) {
+      return "Já tem uma conta com esse e-mail"
+    }
+
+    let newUser;
+
+    if (userStorage) {
+      newUser = [...userStorage, {email, password}]
+    } else {
+      newUser = [{email, password}]
+    }
+
+    localStorage.setItem("userDb", JSON.stringify(newUser))
+  };
+
   return <AuthContext.Provider>{children}</AuthContext.Provider>
 };
