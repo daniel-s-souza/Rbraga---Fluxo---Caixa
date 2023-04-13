@@ -1,9 +1,12 @@
 import React from 'react'
+import * as C from './style'
 
-const index = () => {
+const Button = ({ Text, onClick, Type = "button"}) => {
   return (
-    <div>index</div>
+    <C.Button type={Type} onClick={onClick}>
+      {Text}
+    </C.Button>
   )
 }
 
-export default index
+export default Button
