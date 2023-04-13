@@ -1,9 +1,12 @@
+import { AuthProvider } from "./Contexts/auth";
 import RoutesApp from "./Routes";
 
 function App() {
   return (
     <>
-    <RoutesApp />
+    <AuthProvider>
+      <RoutesApp />
+    </AuthProvider>
     </>
   );
 }
