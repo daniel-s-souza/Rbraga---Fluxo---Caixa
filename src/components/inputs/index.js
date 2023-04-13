@@ -1,9 +1,17 @@
 import React from 'react'
+import * as C from './style'
 
-const index = () => {
+const Input = ({ type, placeholder, value, onChange }) => {
   return (
-    <div>index</div>
+    <>
+    <C.Input
+      value={value}
+      onChange={onChange}
+      type={type}
+      placeholder={placeholder}
+    />
+    </>
   )
 }
 
-export default index
+export default Input
