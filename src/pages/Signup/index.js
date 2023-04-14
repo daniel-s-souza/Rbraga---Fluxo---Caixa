@@ -12,6 +12,26 @@ const Signup = () => {
   const [senha, setSenha] = useState("")
   const [error, setError] = useState("")
   const [nome, setNome] = useState("")
+  const navigate = useNavigate();
+
+  const { signup } = useAuth();
+
+  const handleSignup = () => {
+    
+    const validSenha = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%*()_+^&}{:;?.])(?:([0-9a-zA-Z!@#$%;*(){}_+^&])(?!\1)){6,8}$/;
+
+
+     if (!email || !emailConf || !nome) {
+      setError("Preencha todos os campos!");
+      return;
+     } else if (email !== emailConf) {
+      setError("Os e-mais não são iguais!");
+     } else if (senha !== validSenha) {
+      setError("A senha precisa ter 6 (seis) a 8 (oito) caracteres ao menos 1 (um) número e 1 (um) caracter especial, por exemplo '@, $, &...'")
+     } else if ( nome.length < 5) {
+      setError ("Preencha o nome completo");
+     }
+  }
 
   return (
     <C.Container>
