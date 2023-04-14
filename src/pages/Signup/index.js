@@ -34,7 +34,18 @@ const Signup = () => {
     } else if ( nome.length < 5) {
       setError ("Preencha o nome completo");
     }
-  }
+
+    const res = signup(email, senha, nome)
+
+    if (res) {
+      setError(res);
+      return;
+    }
+
+    alert("Usuário cadastrado com sucesso!");
+
+    navigate("/");
+  };
 
   return (
     <C.Container>
