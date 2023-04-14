@@ -1,6 +1,6 @@
 import { AuthProvider } from "./Contexts/auth";
 import RoutesApp from "./Routes";
-import './style.css';
+import GlobalStyle  from "./styles/global";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
     <AuthProvider>
       <RoutesApp />
     </AuthProvider>
+    <GlobalStyle />
     </>
   );
 }
