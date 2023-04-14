@@ -11,6 +11,7 @@ const Signup = () => {
   const [emailConf, setEmailConf] = useState("")
   const [senha, setSenha] = useState("")
   const [error, setError] = useState("")
+  const [nome, setNome] = useState("")
 
   return (
     <div>Signup</div>
