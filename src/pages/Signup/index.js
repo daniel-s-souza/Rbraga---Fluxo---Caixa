@@ -14,7 +14,43 @@ const Signup = () => {
   const [nome, setNome] = useState("")
 
   return (
-    <div>Signup</div>
+    <C.Container>
+      <C.Label>Cadastro</C.Label>
+      <C.Content>
+        <Input 
+        type="name"
+        placeholder="Nome Completo"
+        value={ nome }
+        onChange={(e) => [setNome(e.target.value), setError("")]}
+        />
+        <Input 
+        type="email"
+        placeholder="Digite seu e-mail"
+        value={ email }
+        onChange={(e) => [setEmail(e.target.value), setError("")]}
+        />
+          <Input 
+        type="email"
+        placeholder="Digite seu e-mail"
+        value={ emailConf }
+        onChange={(e) => [setEmailConf(e.target.value), setError("")]}
+        />
+         <Input 
+        type="password"
+        placeholder="Digite sua senha"
+        value={ senha }
+        onChange={(e) => [setSenha(e.target.value), setError("")]}
+        />
+        <C.LabelError>{error}</C.LabelError>
+        <Button Text="Inscreva-se" onClick={handleSignup} />
+        <C.LabelSignup>
+          Já é cadastrado?
+          <C.Strong>
+            <Link to="/">&nbsp;Entre</Link>
+          </C.Strong>
+        </C.LabelSignup>
+      </C.Content>
+    </C.Container>
   )
 }
 
