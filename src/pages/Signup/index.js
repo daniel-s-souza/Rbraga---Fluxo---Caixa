@@ -10,6 +10,7 @@ const Signup = () => {
   const [email, setEmail] = useState("")
   const [emailConf, setEmailConf] = useState("")
   const [senha, setSenha] = useState("")
+  const [confirmSenha, setConfirmSenha] = useState("")
   const [error, setError] = useState("")
   const [nome, setNome] = useState("")
   const navigate = useNavigate();
@@ -18,19 +19,21 @@ const Signup = () => {
 
   const handleSignup = () => {
     
-    const validSenha = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%*()_+^&}{:;?.])(?:([0-9a-zA-Z!@#$%;*(){}_+^&])(?!\1)){6,8}$/;
-
+    const validSenha = /^(?=.*[A-Z])(?=.*[!#@$%&])(?=.*[0-9])(?=.*[a-z]).{6,8}$/; 
 
      if (!email || !emailConf || !nome) {
       setError("Preencha todos os campos!");
       return;
      } else if (email !== emailConf) {
       setError("Os e-mais não são iguais!");
-     } else if (senha !== validSenha) {
+     } else if (!validSenha.test(senha)) {
       setError("A senha precisa ter 6 (seis) a 8 (oito) caracteres ao menos 1 (um) número e 1 (um) caracter especial, por exemplo '@, $, &...'")
-     } else if ( nome.length < 5) {
+      console.log(setError);
+     } else if ( senha !== confirmSenha ){
+      setError ("As senhas não são iguais");
+    } else if ( nome.length < 5) {
       setError ("Preencha o nome completo");
-     }
+    }
   }
 
   return (
@@ -51,7 +54,7 @@ const Signup = () => {
         />
           <Input 
         type="email"
-        placeholder="Digite seu e-mail"
+        placeholder="Confirme seu e-mail"
         value={ emailConf }
         onChange={(e) => [setEmailConf(e.target.value), setError("")]}
         />
@@ -60,6 +63,12 @@ const Signup = () => {
         placeholder="Digite sua senha"
         value={ senha }
         onChange={(e) => [setSenha(e.target.value), setError("")]}
+        />
+        <Input 
+        type="password"
+        placeholder="Digite sua senha novamente"
+        value={ confirmSenha }
+        onChange={(e) => [setConfirmSenha(e.target.value), setError("")]}
         />
         <C.LabelError>{error}</C.LabelError>
         <Button Text="Inscreva-se" onClick={handleSignup} />
