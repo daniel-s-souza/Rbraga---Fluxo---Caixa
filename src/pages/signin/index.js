@@ -6,7 +6,7 @@ import Input from "../../components/inputs";
 import * as C from './style';
 
 const Signin = () => {
-  const { signin } = useAuth();
+  const { singin } = useAuth();
   const navigate = useNavigate();
   
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ const Signin = () => {
       return;
     }
 
-    const res = signin(email, senha)
+    const res = singin(email, senha)
 
     if (res) {
       setError(res);
@@ -32,6 +32,8 @@ const Signin = () => {
   return (
    <C.Container>
       <C.Label>Login</C.Label>
+      <C.Content>
+
       <Input 
         type="email"
         placeholder="Digite seu e-mail"
@@ -52,6 +54,7 @@ const Signin = () => {
           <Link to= "/signup">&nbsp;Registre-se</Link>
         </C.Strong>
       </C.LabelSignup>
+      </C.Content>
    </C.Container>
   )
 }
