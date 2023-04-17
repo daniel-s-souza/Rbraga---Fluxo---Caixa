@@ -17,25 +17,27 @@ const Signup = () => {
 
   const { signup } = useAuth();
 
+  const validSenhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[:."@#$%&*^()_+=!-])[A-Za-z0-9:."@#$%&*^()_+=!?-]{6,15}(?!.*(.).*\1)$/;
+
+  const validateSenha = (senha) => {
+    return validSenhaRegex.test(senha)
+  }
+
   const handleSignup = () => {
     
-    const validSenha = /^(?=.*[A-Z])(?=.*[!#@$%&])(?=.*[0-9])(?=.*[a-z]).{6,8}$/; 
-
      if (!email || !emailConf || !nome) {
       setError("Preencha todos os campos!");
       return;
-     } else if (email !== emailConf) {
-      setError("Os e-mais não são iguais!");
-     } else if (!validSenha.test(senha)) {
-      setError("A senha precisa ter 6 (seis) a 8 (oito) caracteres ao menos 1 (um) número e 1 (um) caracter especial, por exemplo '@, $, &...'")
-      console.log(setError);
-     } else if ( senha !== confirmSenha ){
-      setError ("As senhas não são iguais");
-    } else if ( nome.length < 5) {
+     } else if ( nome.length < 5) {
       setError ("Preencha o nome completo");
-    }
-
-    const res = signup(email, senha, nome)
+    }  else if (email !== emailConf) {
+      setError("Os e-mais não são iguais!");
+     } else if (!validateSenha(senha)) {
+      setError("Senha deve conter 7 (sete) caracteres, uma letra maiúscula, uma letra minúscula, um caracter especial ");
+     } else if (senha !== confirmSenha) {
+      setError("Senhas devem ser iguais");
+     } else {
+      const res = signup(email, senha, nome)
 
     if (res) {
       setError(res);
@@ -45,6 +47,7 @@ const Signup = () => {
     alert("Usuário cadastrado com sucesso!");
 
     navigate("/");
+    }
   };
 
   return (
