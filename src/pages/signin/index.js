@@ -49,6 +49,12 @@ const Signin = () => {
       <C.LabelError>{error}</C.LabelError>
       <Button Text="Entrar" onClick={ handleLogin } />
       <C.LabelSignup>
+        Esqueceu a senha?
+        <C.Strong>
+          <Link to="/changePassword">&nbsp;Redefinir senha</Link>
+        </C.Strong>
+      </C.LabelSignup>
+      <C.LabelSignup>
         Não tem cadastro?
         <C.Strong>
           <Link to= "/signup">&nbsp;Registre-se</Link>
