@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import * as C from './style';
 import Input from '../../components/inputs';
 import Button from '../../components/button';
 
-function ChangePassword() {
+export default function ChangePassword() {
   const [ email, setEmail ] = useState('');
   const [ newPassword, setNewPassword ] = useState('');
   const [confirmNewPassword, setConfirmNewPassword ] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
 
   const validSenhaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[:."@#$%&*^()_+=!-])[A-Za-z0-9:."@#$%&*^()_+=!?-]{6,15}(?!.*(.).*\1)$/;
@@ -42,8 +44,24 @@ function ChangePassword() {
     setError('Email não cadastrado');
    } else if (storedPassword) {
     setError("A nova senha deve ser diferente da antiga");
-   }
+   } else if (!validateSenha(newPassword)) {
+    setError("Senha deve conter 7 (sete) caracteres, uma letra maiúscula, uma letra minúscula, um caracter especial ")
+  } else if (newPassword !== confirmNewPassword) {
+    setError ("Senhas devem ser iguais");
+  } else {
+    const getPassword = localStorage.getItem('userDb');
+    const users = JSON.parse(getPassword) || [];
+    const foundUserIndex = users.findIndex(user => user.email === email);
+
+    if (foundUserIndex > -1) {
+      users[foundUserIndex].password = newPassword;
+      localStorage.setItem('userDb', JSON.stringify(users));
+      setError(null);
   }
+    alert("Senha alterada com sucesso!");
+    navigate('/');
+  }
+}
 
   return (
     <C.Container>
@@ -69,9 +87,13 @@ function ChangePassword() {
         />
         <C.LabelError>{error}</C.LabelError>
         <Button Text="Salvar" onClick={ handleNewPassword } />
+        <C.LabelSignup>
+          Já é cadastrado?
+          <C.Strong>
+            <Link to="/">&nbsp;Entre</Link>
+          </C.Strong>
+        </C.LabelSignup>
       </C.Content>
     </C.Container>
   )
-}
-
-export default ChangePassword
+};
