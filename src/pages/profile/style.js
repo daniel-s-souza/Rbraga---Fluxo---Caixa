@@ -19,7 +19,7 @@ export const Content = styled.div`
   width: 100%;
   box-shadow: 0 1px 2px #0003;
   background-color: white;
-  max-width: 350px;
+  max-width: 80%;
   padding: 20px;
   border-radius: 5px;
 `;
@@ -29,3 +29,8 @@ export const Image = styled.img`
   height: 100px;
   wheight: 100px;
 `
+
+export const Text = styled.p`
+  font-size: 20px;
+  color: #676767;
+`;
