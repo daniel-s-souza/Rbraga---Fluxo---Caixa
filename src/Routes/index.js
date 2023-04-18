@@ -5,6 +5,7 @@ import Signin from '../pages/signin';
 import Signup from '../pages/Signup';
 import useAuth from "../hooks/useOut"
 import ChangePassword from '../pages/changePassword';
+import Profile from '../pages/profile';
 
 
 const Private = ({ Item }) => {
@@ -22,6 +23,7 @@ const RoutesApp = () => {
           <Route exact path='/' element={<Signin />} />
           <Route exact path='/signup' element={<Signup />} />
           <Route exact path='/changePassword' element={<ChangePassword />} />
+          <Route exact path='/profile' element={<Profile />} />
         </Routes>
       </Fragment>
     </BrowserRouter>
