@@ -19,10 +19,10 @@ function Header() {
           <Link to="/home">Home</Link>
         </C.Navigation>
         <C.Navigation>
-          <Link to="/home">Perfil</Link>
+          <Link to="/profile">Perfil</Link>
         </C.Navigation>
         <C.Navigation>
-         <Link onClick={handleSignout}>Sair</Link>
+         <Link to="/" onClick={handleSignout}>Sair</Link>
         </C.Navigation>
       </C.Content>
     </C.Header>
