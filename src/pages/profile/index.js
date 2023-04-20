@@ -25,6 +25,7 @@ function Profile() {
         <C.Image src={image} />
         <C.Text>{nome}</C.Text>
         <C.Text>{email}</C.Text>
+        <C.Text>{}</C.Text>
         <Button Text="Editar Perfil" onClick={handleNavigate} />
       </C.Content>
     </C.Container>
