@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import * as C from './style';
 import Input from '../../components/inputs';
 import Button from '../../components/button'
@@ -6,33 +7,38 @@ import axios from 'axios';
 
 function EditProfile() {
 
-  const [profileImage, setProfileImage] = useState(null);
+  const [newName, setNewName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [banckAccounts, setBanckAccounts] = useState([]);
+  const [error, setError] = useState('');
 
-  const handleProfileImageChange = (event) => {
-    const file = event.target.files[0];
-    setProfileImage(file);
-  }
+const userData = localStorage.getItem('userDb');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+const handleNewName = () => {
 
-    const formData = new FormData();
-    formData.append("profileImage", profileImage);
+}
 
-    axios.post('/api/profile-image', formData).then((res) => {
-      alert("Imagem alterada com sucesso!");
-    })
-  }
 
   return (
     <C.Container>
       <C.Content>
-        <form onSubmit={handleSubmit}>
-          <C.Text>Escolha uma imagem de perfil
-          <Input type="file" onChange={handleProfileImageChange} />
-          </C.Text>
+        <C.Text>
+          Nome:
+          <Input type="text"
+           placeholder="Nome Completo"
+           value={newName}
+            onChange={(e) => [setNewName(e.target.value), setError('')]} 
+            />
+        </C.Text>
+        <C.Text>
+          E-mail:
+          <Input type="text"
+           placeholder="Novo e-mail"
+           value={newEmail}
+            onChange={(e) => [setNewEmail(e.target.value), setError('')]} 
+            />
+        </C.Text>
           <Button Text="Salvar" type="submit"/>
-        </form>
       </C.Content>
     </C.Container>
   )
