@@ -58,4 +58,7 @@ margin-left: 10px;
 
 export const CheckedDiv = styled.div `
   display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 20px;
 `

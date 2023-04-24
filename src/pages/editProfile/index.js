@@ -10,18 +10,19 @@ function EditProfile() {
 
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
-  const [banckAccounts, setBanckAccounts] = useState([]);
+  const [banckAccounts, setBanckAccounts] = useState('');
   const [banckName, setBanckName] = useState('');
   const [agNumber, setAgNumber] = useState('');
+  const [accounts, setAccounts] = useState([]);
   const [error, setError] = useState('');
-  const [accType, setAccType] = useState('option1');
+  const [accType, setAccType] = useState('Pessoa Física');
 
-const userData = localStorage.getItem('userDb');
-
-
-const handleNewName = () => {
-
-}
+  const accountDb = localStorage.setItem("accounts" , JSON.stringify({
+    banckName,
+    agNumber,
+    banckAccounts,
+    accType,
+  }))
 
 const handleSelectChange = (event) => {
   setBanckName(event.target.value);
@@ -29,6 +30,27 @@ const handleSelectChange = (event) => {
 
 const handleOptionChange = (event) => {
   setAccType(event.target.value);
+}
+
+const handleNewAcc = () => {
+  if (!banckAccounts || !agNumber || !banckName || !accType) {
+    setError("Por favor, preencha todos os campos.")
+    return;
+  }
+
+  const newAcc = {
+    banckName,
+    agNumber,
+    banckAccounts,
+    accType
+  };
+
+  const savedAcc = JSON.parse(localStorage.getItem(accountDb) || '[]');
+
+  setAccounts([...savedAcc, newAcc])
+
+
+  localStorage.setItem('accounts', JSON.stringify(savedAcc));
 }
 
 
@@ -51,6 +73,17 @@ const handleOptionChange = (event) => {
             onChange={(e) => [setNewEmail(e.target.value), setError('')]} 
             />
         </C.Text>
+        <>
+          {
+            accounts.map((account, index) => (
+              <C.CheckedDiv key={index}>
+                <C.Text>{`Banco: ${account.banckName}`}</C.Text>
+                <C.Text>{`Agência: ${account.agNumber}`}</C.Text>
+                <C.Text>{`Conta: ${account.banckAccounts}`}</C.Text>
+                <C.Text>{`Tipo: ${account.accType}`}</C.Text>
+              </C.CheckedDiv>
+            ))
+          }        </>
         <>
         <C.Text>
           Banco:
@@ -76,10 +109,17 @@ const handleOptionChange = (event) => {
                />
           </C.Text>
           <C.CheckedDiv>
-            <input type='checkbox' />
+          <label>
+          <input className='radioInput' type="radio" value="Pessoa Física" checked={accType === 'Pessoa Física'} onChange={handleOptionChange} />
+          Pessoa Física
+          </label>
+          <label>
+          <input className='radioInput' type="radio" value="Pessoa Jurídica" checked={accType === 'Pessoa Jurídica'} onChange={handleOptionChange} />
+          Pessoa Jurídica
+          </label>
           </C.CheckedDiv>
         </C.Text>
-        <Button Text="Salvar Conta" type="submit"/>
+        <Button Text="Salvar Conta" type="submit" onClick={handleNewAcc}/>
         </>
           <Button Text="Salvar Perfil" type="submit"/>
       </C.Content>
