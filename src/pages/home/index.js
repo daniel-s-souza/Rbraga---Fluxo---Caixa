@@ -1,12 +1,13 @@
 import React from 'react'
 import Header from '../../components/header'
-import TableForm from '../../components/tableICreatorIForm'
+import Resume from '../../components/Resume'
+
 
 const Home = () => {
   return (
     <>
     <Header />
-    <TableForm />
+    <Resume />
     </>
   )
 }
