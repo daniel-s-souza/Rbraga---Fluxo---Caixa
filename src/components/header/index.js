@@ -2,6 +2,7 @@ import React from 'react'
 import * as C from './style';
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useOut';
+import NameComponent from './nameComponent';
 
 
 function Header() {
@@ -15,12 +16,9 @@ function Header() {
   return (
     <C.Header>
       <C.Content>
-        <C.Navigation>
-          <Link to="/home">Home</Link>
-        </C.Navigation>
-        <C.Navigation>
-          <Link to="/profile">Perfil</Link>
-        </C.Navigation>
+      <C.userName>
+        <NameComponent />
+      </C.userName>
         <C.Navigation>
          <Link to="/" onClick={handleSignout}>Sair</Link>
         </C.Navigation>

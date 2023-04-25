@@ -9,12 +9,15 @@ export const Header = styled.header`
 `
 
 export const Content = styled.div`
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: space-around;   
-  padding: 20px;
-  margin-left:50%;
+display: flex;
+position: relative;
+-webkit-box-align: center;
+align-items: center;
+-webkit-box-pack: justify;
+justify-content: space-between;
+margin-left: auto;
+margin-right: 10%;
+padding: 5px;
 `
 
 export const Navigation = styled.strong`
@@ -30,4 +33,30 @@ export const Navigation = styled.strong`
     opacity: .5;
     color: black;
   }
+`
+
+export const Text = styled.p`
+  font-size: 20px;
+  color: #676767;
+`;
+
+export const userName = styled.div`
+display: flex;
+position: relative;
+align-items: center;
+justify-content: flex-start;
+color: white;
+
+`;
+
+export const TextUserName = styled.p`
+  color: white;
+  font-size: 18px;
+`;
+
+export const Image = styled.img`
+  border-radius: 50%;
+  height: 50px;
+  wheight: 30px;
+  margin-right: 10%;
 `

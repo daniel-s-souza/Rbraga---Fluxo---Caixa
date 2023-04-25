@@ -35,7 +35,7 @@ const singin = (email, password) => {
     }
   };
 
-  const signup = (email, password, name, banckAccounts) => {
+  const signup = (email, password, name) => {
     const userStorage = JSON.parse(localStorage.getItem('userDb'));
 
     const hasUser = userStorage?.filter((user) => user.email === email);
@@ -47,9 +47,9 @@ const singin = (email, password) => {
     let newUser;
 
     if (userStorage) {
-      newUser = [...userStorage, {email, password, name, banckAccounts}]
+      newUser = [...userStorage, {email, password, name}]
     } else {
-      newUser = [{email, password, name, banckAccounts}]
+      newUser = [{email, password, name}]
     }
 
     localStorage.setItem("userDb", JSON.stringify(newUser))
