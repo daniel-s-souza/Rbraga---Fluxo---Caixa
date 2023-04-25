@@ -7,6 +7,7 @@ export const Container = styled.div`
   maring: 0 auto;
   display: flex;
   gap: 20px;
-  top: 130px;
+  top: 80px;
   justify-content: space-around;
+  margin: auto;
 `;
