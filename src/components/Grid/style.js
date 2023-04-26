@@ -8,6 +8,8 @@ export const Table = styled.table`
   border-radius: 5px;
   max-width: 1120px;
   margin: 20px auto;
+  position: relative;
+  top: 100px;
 `;
 
 export const Thead = styled.thead``;
