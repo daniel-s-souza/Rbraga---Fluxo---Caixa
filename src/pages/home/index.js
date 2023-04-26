@@ -31,7 +31,14 @@ const Home = () => {
       setIncome(`R$ ${income}`);
       setExpense(`R$ ${expense}`);
       setTotal(`${Number(income) < Number(expense) ? "-" : ""}R$ ${total}`);
-    }, [transactionsList])
+    }, [transactionsList]);
+
+    const handleAdd = (transaction) => {
+      const newArrayTransactions = [...transactionsList, transaction];
+      setTransacionsList(newArrayTransactions);
+
+      localStorage.setItem("transactions", JSON.stringify(newArrayTransactions));
+    }
 
   return (
     <>
