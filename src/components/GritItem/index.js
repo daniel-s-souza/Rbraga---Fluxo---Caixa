@@ -9,8 +9,12 @@ import {
 function GridItem({ item, onDelete }) {
   return (
     <C.Tr>
-      <C.Td>{item.desc}</C.Td>
-      <C.Td>{item.amount}</C.Td>
+      <C.Td alignCenter>{item.group}</C.Td>
+      <C.Td alignCenter>{item.subGroup}</C.Td>
+      <C.Td alignCenter>{item.date}</C.Td>
+      <C.Td alignCenter>{item.competencia}</C.Td>
+      <C.Td alignCenter>{item.desc}</C.Td>
+      <C.Td alignCenter>{item.amount}</C.Td>
       <C.Td alignCenter>
         {item.expense ? (
           <FaRegArrowAltCircleDown color='red'/>) : (
