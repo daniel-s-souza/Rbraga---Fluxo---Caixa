@@ -9,15 +9,14 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [isExpense, setIsExpense] = useState(false);
   const [options, setOptions] = useState([]);
   const [group, setGroup] = useState("");
-  const [account, setAccount] = useState([]);
   const [showFields, setShowFields] = useState(false);
 
 
   const generateID = () => Math.round(Math.random() * 1000);
 
   const handleSave = () => {
-    if (!group || !amount || !options || account) {
-      alert("Preencha os campos obrigatórios: Grupo, Opções, Conta e Valor");
+    if (!group || !amount || !options) {
+      alert("Preencha os campos obrigatórios: Grupo, Opções e Valor");
       return;
     } else if (amount < 1) {
       alert("O valor tem que ser positivo!");
