@@ -13,6 +13,7 @@ export const Container = styled.div`
   gap: 10px;
   position: relative;
   top: 90px;
+  flex-wrap: wrap;
 
   @media (max-width: 750px) {
     display: grid;
@@ -53,4 +54,12 @@ export const Button = styled.button`
    cursor: pointer;
    color: white;
    background-color: #046ee5; 
+`;
+
+export const Select = styled.select`
+outline: none;
+border-radius: 5px;
+padding: 5px 10px;
+font-size: 15px;
+border: 1px solid #ccc;
 `;
