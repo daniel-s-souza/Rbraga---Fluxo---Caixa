@@ -9,13 +9,15 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [isExpense, setIsExpense] = useState(false);
   const [options, setOptions] = useState([]);
   const [group, setGroup] = useState("");
+  const [account, setAccount] = useState([]);
+  const [showFields, setShowFields] = useState(false);
 
 
   const generateID = () => Math.round(Math.random() * 1000);
 
   const handleSave = () => {
-    if (!desc || !amount) {
-      alert("Informe a descrição e o valor");
+    if (!group || !amount || !options || account) {
+      alert("Preencha os campos obrigatórios: Grupo, Opções, Conta e Valor");
       return;
     } else if (amount < 1) {
       alert("O valor tem que ser positivo!");
@@ -43,26 +45,32 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     const selectedGroup = event.target.value;
     switch (selectedGroup) {
       case 'Receitas':
-        setOptions(['Salário', 'Rendimentos']);
+        setOptions(['Salário', 'Rendimentos', 'Renda de aluguel', 'Investimentos' ,'Vendas', 'Prêmios', 'Mesada' ,'Reembolsos', 'Presentes' ]);
         break;
       case 'Despesas fixas':
-        setOptions(['Aluguel', 'Condomínio', 'Internet', 'Energia', 'Água']);
+        setOptions(['Aluguel', 'Condomínio', 'Internet', 'Energia', 'Água', 'Seguros', 'Telefone', 'Planos de saúde e odontológicos', 'Empréstimos e financiamentos', 'Impostos e taxas']);
         break;
       case 'Despesas variáveis':
-        setOptions(['Supermercado', 'Farmácia', 'Restaurantes', 'Transporte']);
+        setOptions(['Supermercado', 'Farmácia', 'Restaurantes', 'Transporte', 'Educação', 'Compras em geral' ,'Presentes e doações' ,'Viagens']);
         break;
       case 'Investimentos':
-        setOptions(['Poupança', 'Tesouro Direto', 'Ações', 'Criptomoedas']);
+        setOptions(['Renda fixa', 'Renda variável', 'Ações', 'Criptomoedas' ,'Fundos de investimento','Tesouro Direto','Previdência Privada','Investimentos imobiliários']);
         break;
       case 'Dívidas':
-        setOptions(['Cartão de crédito', 'Empréstimos', 'Financiamentos']);
+        setOptions(['Cartão de crédito', 'Empréstimos', 'Financiamentos', 'Cheque especial', 'Dívidas com fornecedores']);
         break;
       case 'Reserva de emergência':
-        setOptions(['Despesas de Saúde', 'Despesas de Manutenção', 'Despesas de Perda de Emprego', 'Viagem', 'Reparo em Casa', 'Animais de Estimação']);
+        setOptions(['Conta poupança', 'Fundo de reserva', 'Investimentos de baixo risco', 'Dinheiro em espécie', 'Cofre']);
         break;
       default:
         setOptions([]);
         break;
+    }
+
+    if (selectedGroup === 'Despesas fixas' || selectedGroup === 'Despesas variáveis' || selectedGroup === 'Dívidas') {
+      setShowFields(true);
+    } else {
+      setShowFields(false);
     }
   };
 
@@ -92,6 +100,19 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
           ))}
         </C.Select>
       </C.InputContent>
+      {showFields && (
+        <>
+          <C.InputContent>
+            <C.Label>Vencimento</C.Label>
+            <C.Input type="date" />
+          </C.InputContent>
+
+          <C.InputContent>
+            <C.Label>Competência</C.Label>
+            <C.Input type="month" />
+          </C.InputContent>
+        </>
+      )}
       <C.InputContent>
         <C.Label>Valor</C.Label>
         <C.Input type='number' value={amount} onChange={(e) => setAmount(e.target.value)}/>
