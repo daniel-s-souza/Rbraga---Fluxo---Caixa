@@ -10,6 +10,8 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [options, setOptions] = useState([]);
   const [group, setGroup] = useState("");
   const [showFields, setShowFields] = useState(false);
+  const [date, setDate] = useState('');
+  const [comp, setComp] = useState('');
 
 
   const generateID = () => Math.round(Math.random() * 1000);
@@ -30,12 +32,19 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       expense: isExpense,
       group: group,
       subGroup: options,
+      date: date,
+      competencia: comp,
     };
 
     handleAdd(transaction);
     
     setDesc('');
     setAmount('');
+    setComp('');
+    setGroup('');
+    setOptions('');
+    setDate('');
+    setShowFields(false);
   };
 
   const handleGroupChange = (event) => {
@@ -103,12 +112,12 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
         <>
           <C.InputContent>
             <C.Label>Vencimento</C.Label>
-            <C.Input type="date" />
+            <C.Input type="date" onChange={(e) => setDate(e.target.value)}/>
           </C.InputContent>
 
           <C.InputContent>
             <C.Label>Competência</C.Label>
-            <C.Input type="month" />
+            <C.Input type="month" onChange={(e) => setComp(e.target.value)} />
           </C.InputContent>
         </>
       )}
