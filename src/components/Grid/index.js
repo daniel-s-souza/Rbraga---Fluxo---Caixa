@@ -13,9 +13,9 @@ function Grid({ itens, setItens }) {
       <C.Thead>
         <C.Tr>
           <C.Th width={20} alignCenter>Grupo</C.Th>
-          <C.Th width={20} alignCenter>Opção</C.Th>
-          <C.Th width={10} alignCenter>Data</C.Th>
-          <C.Th width={10} alignCenter>Competência</C.Th>
+          <C.Th width={10} alignCenter>Opção</C.Th>
+          <C.Th width={20} alignCenter>Data</C.Th>
+          <C.Th width={20} alignCenter>Competência</C.Th>
           <C.Th width={20} alignCenter>Descrição</C.Th>
           <C.Th width={30} alignCenter>Valor</C.Th>
           <C.Th width={10} alignCenter>Tipo</C.Th>

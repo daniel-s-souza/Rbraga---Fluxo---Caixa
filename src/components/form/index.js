@@ -8,10 +8,11 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [amount, setAmount] = useState("");
   const [isExpense, setIsExpense] = useState(false);
   const [options, setOptions] = useState([]);
-  const [group, setGroup] = useState("");
+  const [group, setGroup] = useState("Escolha um grupo");
   const [showFields, setShowFields] = useState(false);
   const [date, setDate] = useState('');
   const [comp, setComp] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
 
 
   const generateID = () => Math.round(Math.random() * 1000);
@@ -31,7 +32,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       amount: amount,
       expense: isExpense,
       group: group,
-      subGroup: options,
+      subGroup: selectedOption,
       date: date,
       competencia: comp,
     };
@@ -41,34 +42,47 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setDesc('');
     setAmount('');
     setComp('');
-    setGroup('');
+    setGroup('Escolha um grupo');
     setOptions('');
     setDate('');
     setShowFields(false);
   };
+
+  const groups = [
+    'Escolha um grupo',
+    'Receitas',
+    'Despesas fixas',
+    'Despesas variáveis',
+    'Investimentos',
+    'Dívidas',
+    'Reserva de emergência',
+  ];
 
   const handleGroupChange = (event) => {
     setGroup(event.target.value);
     
     const selectedGroup = event.target.value;
     switch (selectedGroup) {
+      case 'Escolha um grupo':
+        setOptions([]);
+        break;
       case 'Receitas':
-        setOptions(['Salário', 'Rendimentos', 'Renda de aluguel', 'Investimentos' ,'Vendas', 'Prêmios', 'Mesada' ,'Reembolsos', 'Presentes' ]);
+        setOptions(['','Salário', 'Rendimentos', 'Renda de aluguel', 'Investimentos' ,'Vendas', 'Prêmios', 'Mesada' ,'Reembolsos', 'Presentes' ]);
         break;
       case 'Despesas fixas':
-        setOptions(['Aluguel', 'Condomínio', 'Internet', 'Energia', 'Água', 'Seguros', 'Telefone', 'Planos de saúde e odontológicos', 'Empréstimos e financiamentos', 'Impostos e taxas']);
+        setOptions(['','Aluguel', 'Condomínio', 'Internet', 'Energia', 'Água', 'Seguros', 'Telefone', 'Planos de saúde e odontológicos', 'Empréstimos e financiamentos', 'Impostos e taxas']);
         break;
       case 'Despesas variáveis':
-        setOptions(['Supermercado', 'Farmácia', 'Restaurantes', 'Transporte', 'Educação', 'Compras em geral' ,'Presentes e doações' ,'Viagens']);
+        setOptions(['','Supermercado', 'Farmácia', 'Restaurantes', 'Transporte', 'Educação', 'Compras em geral' ,'Presentes e doações' ,'Viagens']);
         break;
       case 'Investimentos':
-        setOptions(['Renda fixa', 'Renda variável', 'Ações', 'Criptomoedas' ,'Fundos de investimento','Tesouro Direto','Previdência Privada','Investimentos imobiliários']);
+        setOptions(['','Renda fixa', 'Renda variável', 'Ações', 'Criptomoedas' ,'Fundos de investimento','Tesouro Direto','Previdência Privada','Investimentos imobiliários']);
         break;
       case 'Dívidas':
-        setOptions(['Cartão de crédito', 'Empréstimos', 'Financiamentos', 'Cheque especial', 'Dívidas com fornecedores']);
+        setOptions(['','Cartão de crédito', 'Empréstimos', 'Financiamentos', 'Cheque especial', 'Dívidas com fornecedores']);
         break;
       case 'Reserva de emergência':
-        setOptions(['Conta poupança', 'Fundo de reserva', 'Investimentos de baixo risco', 'Dinheiro em espécie', 'Cofre']);
+        setOptions(['','Conta poupança', 'Fundo de reserva', 'Investimentos de baixo risco', 'Dinheiro em espécie', 'Cofre']);
         break;
       default:
         setOptions([]);
@@ -87,24 +101,19 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     <C.Container>
     <C.InputContent>
         <C.Label>Grupo</C.Label>
-        <C.Select onChange={handleGroupChange}>
-          <option value="">Escolha um grupo</option>
-          <option value="Receitas">Receitas</option>
-          <option value="Despesas fixas">Despesas fixas</option>
-          <option value="Despesas variáveis">Despesas variáveis</option>
-          <option value="Investimentos">Investimentos</option>
-          <option value="Dívidas">Dívidas</option>
-          <option value="Reserva de emergência">Reserva de emergência</option>
+        <C.Select value={group} onChange={handleGroupChange}>
+          {groups.map((group) => (
+            <option key={group} value={group}>{group}</option>
+          ))}
         </C.Select>
       </C.InputContent>
-
       <C.InputContent>
         <C.Label>Opções</C.Label>
-        <C.Select>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
+        <C.Select onChange={(e) => setSelectedOption(e.target.value)}>
+        {Array.isArray(options) && options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
           ))}
         </C.Select>
       </C.InputContent>
