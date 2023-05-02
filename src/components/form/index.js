@@ -10,16 +10,18 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [options, setOptions] = useState([]);
   const [group, setGroup] = useState("Escolha um grupo");
   const [showFields, setShowFields] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
   const [date, setDate] = useState('');
   const [comp, setComp] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
+  const [accountSelected, setAccountSelected] = useState('Escolha uma Conta');
 
 
   const generateID = () => Math.round(Math.random() * 1000);
 
   const handleSave = () => {
-    if (!group || !amount || !options) {
-      alert("Preencha os campos obrigatórios: Grupo, Opções e Valor");
+    if (!accountSelected || !group || !amount || !options) {
+      alert("Preencha os campos obrigatórios: Conta,Grupo, Opções e Valor");
       return;
     } else if (amount < 1) {
       alert("O valor tem que ser positivo!");
@@ -35,6 +37,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       subGroup: selectedOption,
       date: date,
       competencia: comp,
+      account: accountSelected,
     };
 
     handleAdd(transaction);
@@ -46,22 +49,45 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setOptions('');
     setDate('');
     setShowFields(false);
+    setAccountSelected('Escolha uma Conta');
+    setShowOptions(false);
   };
 
-  const groups = [
+  const accounts = [
+    'Escolha uma Conta',
+    'Receitas Operacionais',
+    'Despesas Operacionais',
+  ]
+
+  const groupsAmount = [
     'Escolha um grupo',
     'Receitas',
-    'Despesas fixas',
-    'Despesas variáveis',
     'Investimentos',
-    'Dívidas',
     'Reserva de emergência',
   ];
+
+  const groupsExpenses = [
+    'Escolha um grupo',
+    'Despesas fixas',
+    'Despesas variáveis',
+    'Dívidas',
+  ]
+
+  const handleAccountChange = (event) => {
+    setAccountSelected(event.target.value);
+
+    if (accountSelected !== "Escolha um Grupo"  ) {
+      setShowOptions(true);
+    } else {
+      setShowOptions(false);
+    }
+  }
 
   const handleGroupChange = (event) => {
     setGroup(event.target.value);
     
     const selectedGroup = event.target.value;
+
     switch (selectedGroup) {
       case 'Escolha um grupo':
         setOptions([]);
@@ -100,14 +126,37 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     <>
     <C.Container>
     <C.InputContent>
-        <C.Label>Grupo</C.Label>
-        <C.Select value={group} onChange={handleGroupChange}>
-          {groups.map((group) => (
-            <option key={group} value={group}>{group}</option>
+        <C.Label> Conta</C.Label>
+        <C.Select value={accountSelected} onChange={handleAccountChange}>
+          {accounts.map((acc) => (
+            <option key={acc} value={acc}>{acc}</option>
           ))}
         </C.Select>
       </C.InputContent>
-      <C.InputContent>
+      {showOptions && (<>
+        <C.InputContent>
+        <C.Label>Grupo</C.Label>
+        <C.Select value={group} onChange={handleGroupChange}>   
+          { accountSelected === 'Despesas Operacionais' ?
+           (groupsExpenses.map((option) => {
+              return (
+                <option key={option} value={option}>
+            {option}
+          </option>
+              )
+           })) :(groupsAmount.map((option) => {
+              return (
+                <option key={option} value={option}>
+            {option}
+          </option>
+              )
+           }))}
+        </C.Select>
+      </C.InputContent>
+      </>)}
+      {showOptions && (
+        <>
+        <C.InputContent>
         <C.Label>Opções</C.Label>
         <C.Select onChange={(e) => setSelectedOption(e.target.value)}>
         {Array.isArray(options) && options.map((option) => (
@@ -117,6 +166,8 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
           ))}
         </C.Select>
       </C.InputContent>
+        </>
+      )}
       {showFields && (
         <>
           <C.InputContent>
