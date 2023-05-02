@@ -12,6 +12,7 @@ function Grid({ itens, setItens }) {
     <C.Table>
       <C.Thead>
         <C.Tr>
+        <C.Th width={20} alignCenter>Conta</C.Th>
           <C.Th width={20} alignCenter>Grupo</C.Th>
           <C.Th width={10} alignCenter>Opção</C.Th>
           <C.Th width={20} alignCenter>Vencimento</C.Th>
