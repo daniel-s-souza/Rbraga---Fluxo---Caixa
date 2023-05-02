@@ -1,6 +1,8 @@
 import React from 'react'
 import * as C from './style'
 import GridItem from '../GritItem';
+import Grafico from '../graficoComponent';
+
 
 function Grid({ itens, setItens }) {
   const onDelete = (ID) => {
@@ -9,6 +11,7 @@ function Grid({ itens, setItens }) {
     localStorage.setItem("transictions", JSON.stringify(newArray));
   }
   return (
+    <>
     <C.Table>
       <C.Thead>
         <C.Tr>
@@ -25,10 +28,12 @@ function Grid({ itens, setItens }) {
       </C.Thead>
       <C.Tbody>
         {itens?.map((item,index) => (
-          <GridItem key={index} item={item} onDelete={onDelete} />
+          <GridItem key={index} item={item} onDelete={onDelete} /> 
         ))}
       </C.Tbody>
     </C.Table>
+    <Grafico data={itens} />
+    </>
   )
 }
 

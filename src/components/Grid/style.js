@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Table = styled.table`
+
   width: 98%;
   background-color: #fff;
   padding: 20px;
@@ -10,6 +11,7 @@ export const Table = styled.table`
   margin: 20px auto;
   position: relative;
   top: 100px;
+
 `;
 
 export const Thead = styled.thead``;
@@ -19,6 +21,7 @@ export const Tbody = styled.tbody``;
 export const Tr = styled.tr``;
 
 export const Th = styled.th`
+
   border-bottom: inset;
   padding-bottom: 5px;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
