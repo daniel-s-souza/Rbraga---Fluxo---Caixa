@@ -16,7 +16,7 @@
 <p>Para utilizar a aplicação, siga os passos abaixo:</p>
 <ol>
 <li>Clone o repositório:</li>
-<pre><code>git clone https://github.com/daniel-s-souza/Rbraga---Fluxo---Caixa-Front-End-React.git
+<pre><code>git clone https://github.com/daniel-s-souza/Rbraga---Fluxo---Caixa
 </code></pre>
 <li>Instale as dependências:</li>
 <pre><code>npm install
