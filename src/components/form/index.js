@@ -107,6 +107,15 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       case 'Investimentos financeiros':
         setOptions(['','Ações', 'CDB,LCA,LCI,Debêntures', 'Consórcios', 'Fundos de Investimentos', 'Outras aplicações financeiras', 'Títulos públicos']);
         break;
+        case 'Contas a pagar':
+        setOptions(['','Contas a pagar', 'Débitos de consórcios', 'Débitos de pré-vendas', 'Fornecedores a pagar', 'honorários a pagar', 'Juros a transcorrer', 'Outras contas a pagar', 'Salário a pagar']);
+        break;
+        case 'Tributos a pagar':
+        setOptions(['','Encargos Sociais a pagar', 'IR a pagar','INSS a pagar','FGTS a pagar','Outros impostos a pagar']);
+        break;
+        case 'Outros passivos circulantes':
+        setOptions(['','Outras dívidas de curto prazo','Outras contas a pagar','Provisões diversas']);
+        break;
       default:
         setOptions([]);
         break;
@@ -119,7 +128,6 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
    'Ativos não circulantes',
    'Patrimonio Líquido',
    'Receitas'
-
   ]
   
   const accountsExpense = [
@@ -131,7 +139,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   ]
 
   const accountsExpensesGroups = [
-    {account: 'Custos' , group: 'Custos'},
+    {account: 'Custos' , group: ['Custos']},
     {account: 'Despesas', group: ['Despesas Administrativas','Despesas com vendas', 'Despesas financeiras', 'Despesas com veículos da empresa', 'Despesas diversas', 'despesas com Pessoal', 'Despesas Tributárias', 'Depreciação']},
     {account: 'Passivo Circulante', group: ['Contas a pagar', 'Tributos a pagar', 'Outros passivos circulantes', 'Emprestimos e financiamentos']},
     {account: 'Passivo não Circulante', group: ['Financiamento de longo prazo']}
@@ -144,20 +152,26 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     {account: 'Receitas', group: ['Receitas Operacionais', 'Receitas Não-Operacionais']},
   ]
 
+  const transacionOptions = [
+    'Entrada',
+    'Saída',
+  ]
+
 
   return (
     <>
     <C.Container>
     <C.InputContent>
   <C.Label htmlFor="transactionType">Tipo de transação:</C.Label>
-    <C.Select id="transactionType" value={isExpense ? "expense" : "income"} onChange={(event) => setIsExpense(event.target.value === "expense")}>
-      <option value="income">Entrada</option>
-      <option value="expense">Saída</option>
-    </C.Select>
+  <C.Select id="transactionType" onChange={() => setIsExpense(!isExpense)}>
+  {transacionOptions.map((option) => (
+    <option key={option} value={option}>{option}</option>
+  ))}
+</C.Select>
 </C.InputContent>
 <C.InputContent>
   <C.Label> Conta</C.Label>
-  <C.Select value={accountSelected} onChange={handleAccountChange}>
+  <C.Select value={availableGroups} onChange={handleAccountChange}>
     {isExpense 
       ? accountsExpense.filter((account) => accountsExpense.includes(account)).map((acc) => (
           <option key={acc} value={acc}>{acc}</option>
