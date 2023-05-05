@@ -16,6 +16,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [comp, setComp] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
   const [accountSelected, setAccountSelected] = useState('Escolha uma Conta');
+  const [availableGroups, setAvailableGroups] = useState('');
 
 
   const generateID = () => Math.round(Math.random() * 1000);
@@ -54,29 +55,30 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setShowOptions(false);
   };
 
-  const groupsAmount = [
-    'Escolha um grupo',
-    'Receitas',
-    'Investimentos',
-    'Reserva de emergência',
-  ];
-
-  const groupsExpenses = [
-    'Escolha um grupo',
-    'Despesas fixas',
-    'Despesas variáveis',
-    'Dívidas',
-  ]
-
   const handleAccountChange = (event) => {
-    setAccountSelected(event.target.value);
-
-    if (accountSelected !== "Escolha um Grupo"  ) {
-      setShowOptions(true);
-    } else {
+    const accountType = event.target.value;
+    setAccountSelected(accountType);
+  
+    let availableGroups = [];
+  
+    if (accountType === 'Esccolha uma Conta') {
       setShowOptions(false);
+    } else {
+      if (isExpense) {
+        availableGroups = accountsExpensesGroups
+          .filter((acc) => acc.account === accountType)
+          .map((acc) => acc.group);
+      } else {
+        availableGroups = accountsIncomeGroups
+          .filter((acc) => acc.account === accountType)
+          .map((acc) => acc.group);
+      }
+  
+      setShowOptions(true);
     }
-  }
+  
+    setAvailableGroups(availableGroups);
+  };
 
   const handleGroupChange = (event) => {
     setGroup(event.target.value);
@@ -87,45 +89,61 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       case 'Escolha um grupo':
         setOptions([]);
         break;
-      case 'Receitas':
-        setOptions(['','Salário', 'Rendimentos', 'Renda de aluguel', 'Investimentos' ,'Vendas', 'Prêmios', 'Mesada' ,'Reembolsos', 'Presentes' ]);
+      case 'Disponivel':
+        setOptions(['', 'Caixa']);
         break;
-      case 'Despesas fixas':
-        setOptions(['','Aluguel', 'Condomínio', 'Internet', 'Energia', 'Água', 'Seguros', 'Telefone', 'Planos de saúde e odontológicos', 'Empréstimos e financiamentos', 'Impostos e taxas']);
+      case 'Contas Correntes':
+        setOptions(['','Bradesco', 'Banco do Brasil', 'Caixa Econômica', 'BNB', 'Santander', 'Inter', 'C6', 'Pagveloz', 'Outro']);
         break;
-      case 'Despesas variáveis':
-        setOptions(['','Supermercado', 'Farmácia', 'Restaurantes', 'Transporte', 'Educação', 'Compras em geral' ,'Presentes e doações' ,'Viagens']);
+      case 'Contas a receber':
+        setOptions(['','Clientes', 'Créditos', 'Créditos de pré-vendas', 'Outras contas a receber',]);
         break;
-      case 'Investimentos':
-        setOptions(['','Renda fixa', 'Renda variável', 'Ações', 'Criptomoedas' ,'Fundos de investimento','Tesouro Direto','Previdência Privada','Investimentos imobiliários']);
+      case 'Estoques':
+        setOptions(['','Carros Novos', 'Carros Seminovos', 'Outros estoques', 'Outros veículos',]);
         break;
-      case 'Dívidas':
-        setOptions(['','Cartão de crédito', 'Empréstimos', 'Financiamentos', 'Cheque especial', 'Dívidas com fornecedores']);
+      case 'Imobilizados':
+        setOptions(['','Investimentos em projetos', 'Máquinas e equipamentos', 'Movéis e utensilios', 'Outros investimentos', 'Participações societárias', 'Terrenos e imóveis', 'Valores e receber LP', 'Veículos da empresa', 'Depreciação acumulada']);
         break;
-      case 'Reserva de emergência':
-        setOptions(['','Conta poupança', 'Fundo de reserva', 'Investimentos de baixo risco', 'Dinheiro em espécie', 'Cofre']);
+      case 'Investimentos financeiros':
+        setOptions(['','Ações', 'CDB,LCA,LCI,Debêntures', 'Consórcios', 'Fundos de Investimentos', 'Outras aplicações financeiras', 'Títulos públicos']);
         break;
       default:
         setOptions([]);
         break;
-    }
-
-    if (selectedGroup === 'Despesas fixas' || selectedGroup === 'Despesas variáveis' || selectedGroup === 'Dívidas') {
-      setShowFields(true);
-    } else {
-      setShowFields(false);
-    }
+    } 
   };
 
   const accountsIncome = [
-    'Esccolha uma Conta',
-   'Receitas Operacionais'
+   'Esccolha uma Conta',
+   'Ativos Circulantes',
+   'Ativos não circulantes',
+   'Patrimonio Líquido',
+   'Receitas'
+
   ]
   
   const accountsExpense = [
     'Esccolha uma Conta',
-    'Despesas Operacionais'
+    'Custos',
+    'Despesas',
+    'Passivo Circulante',
+    'Passivo não circulante',
   ]
+
+  const accountsExpensesGroups = [
+    {account: 'Custos' , group: 'Custos'},
+    {account: 'Despesas', group: ['Despesas Administrativas','Despesas com vendas', 'Despesas financeiras', 'Despesas com veículos da empresa', 'Despesas diversas', 'despesas com Pessoal', 'Despesas Tributárias', 'Depreciação']},
+    {account: 'Passivo Circulante', group: ['Contas a pagar', 'Tributos a pagar', 'Outros passivos circulantes', 'Emprestimos e financiamentos']},
+    {account: 'Passivo não Circulante', group: ['Financiamento de longo prazo']}
+  ]
+
+  const accountsIncomeGroups = [
+    {account: 'Ativos Circulantes', group: ['Disponivel', 'Contas Correntes', 'Contas a receber', 'Estoques']},
+    {account: 'Ativos não circulantes', group: ['Imobilizados', 'Investimentos financeiros']},
+    {account: 'Patrimonio Líquido', group: ['Lucros acumulados', 'Capital Social', 'Reservas']},
+    {account: 'Receitas', group: ['Receitas Operacionais', 'Receitas Não-Operacionais']},
+  ]
+
 
   return (
     <>
@@ -149,20 +167,19 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
         ))}
   </C.Select>
 </C.InputContent>
-      {showOptions && (<>
-        <C.InputContent>
-        <C.Label>Grupo</C.Label>
-        <C.Select value={group} onChange={handleGroupChange}>
-          {isExpense && accountSelected === "Despesas Operacionais" 
-            ? groupsExpenses.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))
-            : groupsAmount.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-        </C.Select>
-      </C.InputContent>
-      </>)}
+{showOptions && (
+  <C.InputContent>
+    <C.Label>Grupo</C.Label>
+    <C.Select value={group} onChange={handleGroupChange}>
+      <option value="Escolha um grupo">Escolha um grupo</option>
+      {accountsIncomeGroups.find((acc) => acc.account === accountSelected)?.group.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </C.Select>
+  </C.InputContent>
+)}
       {showOptions && (
         <>
         <C.InputContent>
