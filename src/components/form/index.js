@@ -54,12 +54,6 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setShowOptions(false);
   };
 
-  const accounts = [
-    'Escolha uma Conta',
-    'Receitas Operacionais',
-    'Despesas Operacionais',
-  ]
-
   const groupsAmount = [
     'Escolha um grupo',
     'Receitas',
@@ -123,35 +117,49 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     }
   };
 
+  const accountsIncome = [
+    'Esccolha uma Conta',
+   'Receitas Operacionais'
+  ]
+  
+  const accountsExpense = [
+    'Esccolha uma Conta',
+    'Despesas Operacionais'
+  ]
+
   return (
     <>
     <C.Container>
     <C.InputContent>
-        <C.Label> Conta</C.Label>
-        <C.Select value={accountSelected} onChange={handleAccountChange}>
-          {accounts.map((acc) => (
-            <option key={acc} value={acc}>{acc}</option>
-          ))}
-        </C.Select>
-      </C.InputContent>
+  <C.Label htmlFor="transactionType">Tipo de transação:</C.Label>
+    <C.Select id="transactionType" value={isExpense ? "expense" : "income"} onChange={(event) => setIsExpense(event.target.value === "expense")}>
+      <option value="income">Entrada</option>
+      <option value="expense">Saída</option>
+    </C.Select>
+</C.InputContent>
+<C.InputContent>
+  <C.Label> Conta</C.Label>
+  <C.Select value={accountSelected} onChange={handleAccountChange}>
+    {isExpense 
+      ? accountsExpense.filter((account) => accountsExpense.includes(account)).map((acc) => (
+          <option key={acc} value={acc}>{acc}</option>
+        ))
+      : accountsIncome.filter((account) => accountsIncome.includes(account)).map((acc) => (
+          <option key={acc} value={acc}>{acc}</option>
+        ))}
+  </C.Select>
+</C.InputContent>
       {showOptions && (<>
         <C.InputContent>
         <C.Label>Grupo</C.Label>
-        <C.Select value={group} onChange={handleGroupChange}>   
-          { accountSelected === 'Despesas Operacionais' ?
-           (groupsExpenses.map((option) => {
-              return (
-                <option key={option} value={option}>
-            {option}
-          </option>
-              )
-           })) :(groupsAmount.map((option) => {
-              return (
-                <option key={option} value={option}>
-            {option}
-          </option>
-              )
-           }))}
+        <C.Select value={group} onChange={handleGroupChange}>
+          {isExpense && accountSelected === "Despesas Operacionais" 
+            ? groupsExpenses.map((option) => (
+                <option key={option} value={option}>{option}</option>
+              ))
+            : groupsAmount.map((option) => (
+                <option key={option} value={option}>{option}</option>
+              ))}
         </C.Select>
       </C.InputContent>
       </>)}
@@ -190,23 +198,6 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
         <C.Label>Descição</C.Label>
         <C.Input value={desc} onChange={(e) => setDesc(e.target.value)}/>
       </C.InputContent>
-      <C.RadioGroup>
-        <C.Input 
-          type="radio"
-          id="rIncome"
-          defaultChecked
-          name='group1'
-          onChange={() => setIsExpense(!isExpense)}
-        />
-        <C.Label htmlFor='rIncome'>Entrada</C.Label>
-        <C.Input 
-          type="radio"
-          id="rExpenses"
-          name='group1'
-          onChange={() => setIsExpense(!isExpense)}
-        />
-         <C.Label htmlFor='rExpenses'>Saída</C.Label>
-      </C.RadioGroup>
       <C.Button onClick={handleSave}>ADICIONAR</C.Button>
     </C.Container>
     <Grid itens={transactionsList} setItens={setTransactionsList}/>
