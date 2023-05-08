@@ -11,7 +11,7 @@ export const Table = styled.table`
   margin: 20px auto;
   position: relative;
   top: 100px;
-
+  overflow: auto;
 `;
 
 export const Thead = styled.thead``;

@@ -10,7 +10,6 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [isExpense, setIsExpense] = useState(false);
   const [options, setOptions] = useState([]);
   const [group, setGroup] = useState("Escolha um grupo");
-  const [showFields, setShowFields] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [date, setDate] = useState('');
   const [comp, setComp] = useState('');
@@ -50,7 +49,6 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setGroup('Escolha um grupo');
     setOptions('');
     setDate('');
-    setShowFields(false);
     setAccountSelected('Escolha uma Conta');
     setShowOptions(false);
   };
@@ -116,6 +114,54 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
         case 'Outros passivos circulantes':
         setOptions(['','Outras dívidas de curto prazo','Outras contas a pagar','Provisões diversas']);
         break;
+        case 'Empréstimos e financiamentos':
+        setOptions(['','Empréstimos Bancários', 'Empréstimos de sócios', 'Financiamento de veículo']);
+        break;
+        case 'Financiamento de longo prazo':
+        setOptions(['','Financiamento Imobiliário', 'Dívidas renegociadas', 'REFIS a pagar', 'Outros passivos de longo prazo']);
+        break;
+        case 'Lucros acumulados':
+        setOptions(['','Lucros ou prejuízos acumulados']);
+        break;
+        case 'Capital social':
+        setOptions(['','Capital Social']);
+        break;
+        case 'Reservas':
+        setOptions(['','Reservas de patrimônio', 'Reservas de Contigência', 'Reservas de Distribuição', 'Outras Reservas']);
+        break;
+        case 'Receitas operacionais':
+        setOptions(['','Comissão de concessionárias','Comissão de financeiras', 'Outras receitas operacionais', 'Prestação de serviços', 'Receita de consignado', 'Venda de outros veículos', 'Venda de veículo novo', 'Venda de veículo seminovo']);
+        break;
+        case 'Receitas não-operacionais':
+        setOptions(['','Alugéis','Outras Receitas']);
+        break;
+        case 'Custos':
+        setOptions(['','Custos dos veículos vendidos', 'Custos de serviços prestados']);
+        break;
+        case 'Despesas Administrativas':
+        setOptions(['','Água', 'Aluguel', 'Contador', 'Correios','Despesas com cartório', 'Internet', 'Energia Elétrica', 'Material de escritório', 'Material de Limpeza', 'Outras despesas administrativas', 'Telefone celular', 'Telefone fixo']);
+        break;
+        case 'Despesas com vendas':
+        setOptions(['','Ajuda de custo a vendedores', 'Bonificações a clientes', 'Brindes', 'Comissões', 'Despesas com entregas', 'Embalagem', 'marketing e propaganda','Outras despesas com vendas', 'Premiação a vendedores', 'Serviços extras']);
+        break;
+        case 'Despesas financeiras':
+        setOptions(['','IOF', 'Juros bancários', 'Manutenção de contas correntes', 'Multas e juros', 'Outras despesas financeiras', 'Pagamentos de empréstimos', 'SERASA', 'SPC', 'Tarifas bancárias']);
+        break;
+        case 'Despesas com veículos da empresa':
+        setOptions(['','Aluguel de veículo', 'Combustível administração', 'Combustível operacional', 'IPVA', 'Manutenção', 'Outras despesas com veículos', 'Peças e serviços', 'Pneus', 'Seguros']);
+        break;
+        case 'Despesas diversas':
+        setOptions(['','Despesas diversas', 'Doações e patrocinios', 'Instalações e serviços', 'Manutenção de equipamentos']);
+        break;
+        case 'Despesa com pessoal':
+        setOptions(['','13º salário', 'Bonificações e gratificações', 'Férias', 'Folha de salários', 'Honorários profissionais', 'Horas-extras', 'Multas trabalhistas', 'Recisão contratual', 'Serviços de terceiros', 'Uniformes e crachás' , 'Vale-alimentação', 'Vale-transporte']);
+        break;
+        case 'Despesas Tributárias':
+        setOptions(['','Alvará de funcionamento', 'COFINS', 'Contribuição sindical', 'CSLL', 'FGTS', 'ISS', 'ICMS', 'OC,S Antecipado', 'INSS', 'IPTU', 'IR', 'IRRF', 'Outras despesas tributárias', 'PIS', 'Taxas e contribuições diversas']);
+        break;
+        case 'Depreciação':
+        setOptions(['','Depreciação']);
+        break;
       default:
         setOptions([]);
         break;
@@ -140,22 +186,29 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
 
   const accountsExpensesGroups = [
     {account: 'Custos' , group: ['Custos']},
-    {account: 'Despesas', group: ['Despesas Administrativas','Despesas com vendas', 'Despesas financeiras', 'Despesas com veículos da empresa', 'Despesas diversas', 'despesas com Pessoal', 'Despesas Tributárias', 'Depreciação']},
-    {account: 'Passivo Circulante', group: ['Contas a pagar', 'Tributos a pagar', 'Outros passivos circulantes', 'Emprestimos e financiamentos']},
-    {account: 'Passivo não Circulante', group: ['Financiamento de longo prazo']}
+    {account: 'Despesas', group: ['Despesas Administrativas','Despesas com vendas', 'Despesas financeiras', 'Despesas com veículos da empresa', 'Despesas diversas', 'Despesa com pessoal', 'Despesas Tributárias', 'Depreciação']},
+    {account: 'Passivo Circulante', group: ['Contas a pagar', 'Tributos a pagar', 'Outros passivos circulantes', 'Empréstimos e financiamentos']},
+    {account: 'Passivo não circulante', group: ['Financiamento de longo prazo']}
   ]
 
   const accountsIncomeGroups = [
     {account: 'Ativos Circulantes', group: ['Disponivel', 'Contas Correntes', 'Contas a receber', 'Estoques']},
     {account: 'Ativos não circulantes', group: ['Imobilizados', 'Investimentos financeiros']},
-    {account: 'Patrimonio Líquido', group: ['Lucros acumulados', 'Capital Social', 'Reservas']},
-    {account: 'Receitas', group: ['Receitas Operacionais', 'Receitas Não-Operacionais']},
+    {account: 'Patrimonio Líquido', group: ['Lucros acumulados', 'Capital social', 'Reservas']},
+    {account: 'Receitas', group: ['Receitas operacionais', 'Receitas não-operacionais']},
   ]
 
   const transacionOptions = [
     'Entrada',
     'Saída',
   ]
+
+  const isExpenseAccount = (account) => {
+    return accountsExpensesGroups.some((acc) => acc.account === account);
+  };
+
+  const showFields = isExpenseAccount(accountSelected);
+  
 
 
   return (
@@ -186,14 +239,23 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     <C.Label>Grupo</C.Label>
     <C.Select value={group} onChange={handleGroupChange}>
       <option value="Escolha um grupo">Escolha um grupo</option>
-      {accountsIncomeGroups.find((acc) => acc.account === accountSelected)?.group.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
+      {isExpenseAccount(accountSelected) ? 
+        accountsExpensesGroups.find((acc) => acc.account === accountSelected)?.group.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))
+      :
+        accountsIncomeGroups.find((acc) => acc.account === accountSelected)?.group.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))
+      }
     </C.Select>
   </C.InputContent>
 )}
+
       {showOptions && (
         <>
         <C.InputContent>
@@ -208,19 +270,20 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       </C.InputContent>
         </>
       )}
-      {showFields && (
-        <>
-          <C.InputContent>
-            <C.Label>Vencimento</C.Label>
-            <C.Input type="date" onChange={(e) => setDate(e.target.value)}/>
-          </C.InputContent>
+      {showFields && isExpenseAccount(accountSelected) && (
+  <>
+    <C.InputContent>
+      <C.Label>Vencimento</C.Label>
+      <C.Input type="date" onChange={(e) => setDate(e.target.value)}/>
+    </C.InputContent>
 
-          <C.InputContent>
-            <C.Label>Competência</C.Label>
-            <C.Input type="month" onChange={(e) => setComp(e.target.value)} />
-          </C.InputContent>
-        </>
-      )}
+    <C.InputContent>
+      <C.Label>Competência</C.Label>
+      <C.Input type="month" onChange={(e) => setComp(e.target.value)} />
+    </C.InputContent>
+  </>
+)}
+
       <C.InputContent>
         <C.Label>Valor</C.Label>
         <C.Input type='number' value={amount} onChange={(e) => setAmount(e.target.value)}/>
