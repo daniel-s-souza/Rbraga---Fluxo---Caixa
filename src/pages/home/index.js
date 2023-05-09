@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Header from '../../components/header'
 import Resume from '../../components/Resume'
 import Form from '../../components/form'
+import BanckComponent from '../../components/banckComponent'
 
 
 
@@ -46,6 +47,7 @@ const Home = () => {
     <>
     <Header />
     <Resume income={income} expense={expense} total={total} />
+    <BanckComponent />
     <Form handleAdd={handleAdd} transactionsList={transactionsList} setTransactionsList={setTransactionsList}/>
     </>
   )
