@@ -209,6 +209,23 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
 
   const showFields = isExpenseAccount(accountSelected);
   
+  function convertISOtoDateBR(date) {
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
+  }
+
+  function convertISOtoMonthBR(date) {
+    const [year, month ] = date.split('-');
+    const monthIndex = parseInt(month) - 1;
+    const monthNames = [
+      'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 
+      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+    ];
+    const monthName = monthNames[monthIndex].charAt(0).toUpperCase() + monthNames[monthIndex].slice(1);
+    return `${monthName}/${year}`;
+  }
+  
+  
 
 
   return (
@@ -272,14 +289,14 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       )}
       {showFields && isExpenseAccount(accountSelected) && (
   <>
-    <C.InputContent>
-      <C.Label>Vencimento</C.Label>
-      <C.Input type="date" onChange={(e) => setDate(e.target.value)}/>
-    </C.InputContent>
+   <C.InputContent>
+  <C.Label>Vencimento</C.Label>
+  <C.Input type="date" onChange={(e) => setDate(convertISOtoDateBR(e.target.value))}/>
+  </C.InputContent>
 
     <C.InputContent>
       <C.Label>Competência</C.Label>
-      <C.Input type="month" onChange={(e) => setComp(e.target.value)} />
+      <C.Input type="month" onChange={(e) => setComp(convertISOtoMonthBR(e.target.value))} />
     </C.InputContent>
   </>
 )}
