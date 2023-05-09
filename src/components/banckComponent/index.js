@@ -1,20 +1,10 @@
-import React from 'react';
+import React from 'react'
 
-function BanckComponent() {
-
-  const getBanckName = () => {
-    const getBankData = JSON.parse(localStorage.getItem('transactions'));
-    const subGroup = getBankData.subGroup;
-    console.log(subGroup)
-    return subGroup;
-  }
-
-  const subGroup = getBanckName();
-  
+function index() {
   return (
-    <div>{subGroup}</div>
+    <div>index</div>
   )
 }
 
-export default BanckComponent;
+export default index
 
