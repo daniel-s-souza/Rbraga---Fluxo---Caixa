@@ -8,7 +8,7 @@ function Grafico({ data }) {
   useEffect(() => {
     // Agrupa os dados por categoria e soma os valores
     const groupedData = data.reduce((acc, item) => {
-      const category = item.subGroup;
+      const category = item.group; // alteração aqui
       const value = parseFloat(item.amount);
       if (!acc[category]) {
         acc[category] = 0;
