@@ -3,6 +3,7 @@ import Header from '../../components/header'
 import Resume from '../../components/Resume'
 import Form from '../../components/form'
 import BanckComponent from '../../components/banckComponent'
+import * as C from './styled';
 
 
 
@@ -47,7 +48,18 @@ const Home = () => {
     <>
     <Header />
     <Resume income={income} expense={expense} total={total} />
-    <BanckComponent />
+    <C.Container>
+
+    <BanckComponent title="CEF" />
+    <BanckComponent title="Bradesco" />
+    <BanckComponent title="BB" />
+    <BanckComponent title="Inter" />
+    <BanckComponent title="BNB" />
+    <BanckComponent title="Santander" />
+    <BanckComponent title="C6" />
+    <BanckComponent title="Pagveloz" />
+    <BanckComponent title="Outro" />
+    </C.Container>
     <Form handleAdd={handleAdd} transactionsList={transactionsList} setTransactionsList={setTransactionsList}/>
     </>
   )

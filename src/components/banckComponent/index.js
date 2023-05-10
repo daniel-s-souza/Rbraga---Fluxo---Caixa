@@ -1,10 +1,15 @@
 import React from 'react'
+import * as C from './style'
 
-function index() {
+function BanckComponent({title}) {
   return (
-    <div>index</div>
+    <C.Container>
+    <C.Header>
+      <C.HeaderTitle>{title}</C.HeaderTitle>
+    </C.Header> 
+  </C.Container>
   )
 }
 
-export default index
+export default BanckComponent
 
