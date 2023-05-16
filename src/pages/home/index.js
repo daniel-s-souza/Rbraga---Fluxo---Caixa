@@ -1,68 +1,76 @@
-import React, { useState, useEffect } from 'react'
-import Header from '../../components/header'
-import Resume from '../../components/Resume'
-import Form from '../../components/form'
-import BanckComponent from '../../components/banckComponent'
+import React, { useEffect, useState } from 'react';
+import Header from '../../components/header';
+import Resume from '../../components/Resume';
+import BanckComponent from '../../components/banckComponent';
+import Form from '../../components/form';
 import * as C from './styled';
 
-
-
 const Home = () => {
-
-  const data = localStorage.getItem("transactions");
-  const [transactionsList, setTransactionsList] = useState(
-    data ? JSON.parse(data) : []
-  );
+  const [transactionsList, setTransactionsList] = useState([]);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [total, setTotal] = useState(0);
+  const [bankValues, setBankValues] = useState({});
 
   useEffect(() => {
-    const amountExpense = transactionsList
-      .filter((item) => item.expense)
-      .map((transaction) => Number(transaction.amount));
+    const data = localStorage.getItem('transactions');
+    const savedTransactions = data ? JSON.parse(data) : [];
+    setTransactionsList(savedTransactions);
 
-    const amountIncome = transactionsList
-      .filter((item) => !item.expense)
-      .map((transaction) => Number(transaction.amount));
+    const savedBankValues = JSON.parse(localStorage.getItem('bankValues')) || {};
+    setBankValues(savedBankValues);
 
-    const expense = amountExpense.reduce((acc, cur) => acc + cur, 0).toFixed(2);
-    const income = amountIncome.reduce((acc, cur) => acc + cur, 0).toFixed(2);
+    const amountExpense = savedTransactions
+      .filter(item => item.expense)
+      .map(transaction => Number(transaction.amount));
 
-    const total = Math.abs(income - expense).toFixed(2);
+    const amountIncome = savedTransactions
+      .filter(item => !item.expense)
+      .map(transaction => Number(transaction.amount));
 
-    setIncome(`R$ ${income}`);
-    setExpense(`R$ ${expense}`);
-    setTotal(`${Number(income) < Number(expense) ? "-" : ""}R$ ${total}`);
-  }, [transactionsList]);
+    const totalExpense = amountExpense.reduce((acc, cur) => acc + cur, 0).toFixed(2);
+    const totalIncome = amountIncome.reduce((acc, cur) => acc + cur, 0).toFixed(2);
 
-  const handleAdd = (transaction) => {
+    const totalBalance = Math.abs(totalIncome - totalExpense).toFixed(2);
+
+    setIncome(`R$ ${totalIncome}`);
+    setExpense(`R$ ${totalExpense}`);
+    setTotal(`${Number(totalIncome) < Number(totalExpense) ? '-' : ''}R$ ${totalBalance}`);
+  }, []);
+
+  const handleAdd = transaction => {
     const newArrayTransactions = [...transactionsList, transaction];
-
     setTransactionsList(newArrayTransactions);
+    localStorage.setItem('transactions', JSON.stringify(newArrayTransactions));
 
-    localStorage.setItem("transactions", JSON.stringify(newArrayTransactions));
+    const { subGroup, amount } = transaction;
+    const updatedBankValues = { ...bankValues };
+    updatedBankValues[subGroup] = (updatedBankValues[subGroup] || 0) + Number(amount);
+    setBankValues(updatedBankValues);
+    localStorage.setItem('bankValues', JSON.stringify(updatedBankValues));
   };
 
   return (
     <>
-    <Header />
-    <Resume income={income} expense={expense} total={total} />
-    <C.Container>
-
-    <BanckComponent title="CEF" />
-    <BanckComponent title="Bradesco" />
-    <BanckComponent title="BB" />
-    <BanckComponent title="Inter" />
-    <BanckComponent title="BNB" />
-    <BanckComponent title="Santander" />
-    <BanckComponent title="C6" />
-    <BanckComponent title="Pagveloz" />
-    <BanckComponent title="Outro" />
-    </C.Container>
-    <Form handleAdd={handleAdd} transactionsList={transactionsList} setTransactionsList={setTransactionsList}/>
+      <Header />
+      <Resume income={income} expense={expense} total={total} />
+      <C.Container>
+        {Object.entries(bankValues).map(([bank, value]) => (
+          <BanckComponent
+            key={bank}
+            title={bank}
+            value={value}
+            setValue={value => setBankValues({ ...bankValues, [bank]: value })}
+          />
+        ))}
+      </C.Container>
+      <Form
+        handleAdd={handleAdd}
+        transactionsList={transactionsList}
+        setTransactionsList={setTransactionsList}
+      />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
