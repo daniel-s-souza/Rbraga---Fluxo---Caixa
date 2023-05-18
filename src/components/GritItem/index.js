@@ -9,6 +9,7 @@ import {
 function GridItem({ item, onDelete }) {
   return (
     <C.Tr>
+      <C.Td alignCenter>{item.id}</C.Td>
       <C.Td alignCenter>{item.account}</C.Td>
       <C.Td alignCenter>{item.group}</C.Td>
       <C.Td alignCenter>{item.subGroup}</C.Td>

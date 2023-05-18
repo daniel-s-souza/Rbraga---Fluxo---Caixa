@@ -21,10 +21,11 @@ function Grid({ itens, setItens }) {
       <C.Table>
         <C.Thead>
           <C.Tr>
+          <C.Th width={4} alignCenter>ID</C.Th>
             <C.Th width={20} alignCenter>Conta</C.Th>
-            <C.Th width={10} alignCenter>Grupo</C.Th>
-            <C.Th width={20} alignCenter>Opção</C.Th>
-            <C.Th width={5} alignCenter>Vencimento</C.Th>
+            <C.Th width={20} alignCenter>Grupo</C.Th>
+            <C.Th width={10} alignCenter>Opção</C.Th>
+            <C.Th width={10} alignCenter>Vencimento</C.Th>
             <C.Th width={10} alignCenter>Competência</C.Th>
             <C.Th width={20} alignCenter>Descrição</C.Th>
             <C.Th width={40} alignCenter>Valor</C.Th>
