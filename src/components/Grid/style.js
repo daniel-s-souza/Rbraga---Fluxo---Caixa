@@ -9,6 +9,7 @@ export const TableContainer = styled.div`
   overflow-x: auto;
   box-shadow: 0px 0px 5px #ccc;
   border-radius: 5px;
+  overflow-x: scroll;
 
   @media (max-width: 768px) {
     overflow-x: scroll;
