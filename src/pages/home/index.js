@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/header';
 import Resume from '../../components/Resume';
-import BanckComponent from '../../components/banckComponent';
+import BankComponent from '../../components/banckComponent';
 import Form from '../../components/form';
 import * as C from './styled';
 
@@ -17,14 +17,18 @@ const Home = () => {
     const savedTransactions = data ? JSON.parse(data) : [];
     setTransactionsList(savedTransactions);
 
-    const savedBankValues = JSON.parse(localStorage.getItem('bankValues')) || {};
-    setBankValues(savedBankValues);
+    const savedBankValues = localStorage.getItem('bankValues');
+    if (savedBankValues) {
+      setBankValues(JSON.parse(savedBankValues));
+    }
+  }, []);
 
-    const amountExpense = savedTransactions
+  useEffect(() => {
+    const amountExpense = transactionsList
       .filter(item => item.expense)
       .map(transaction => Number(transaction.amount));
 
-    const amountIncome = savedTransactions
+    const amountIncome = transactionsList
       .filter(item => !item.expense)
       .map(transaction => Number(transaction.amount));
 
@@ -36,18 +40,21 @@ const Home = () => {
     setIncome(`R$ ${totalIncome}`);
     setExpense(`R$ ${totalExpense}`);
     setTotal(`${Number(totalIncome) < Number(totalExpense) ? '-' : ''}R$ ${totalBalance}`);
-  }, []);
+  }, [transactionsList]);
 
   const handleAdd = transaction => {
-    const newArrayTransactions = [...transactionsList, transaction];
-    setTransactionsList(newArrayTransactions);
-    localStorage.setItem('transactions', JSON.stringify(newArrayTransactions));
+    const { accountType, accountGroup, bank, amount } = transaction;
 
-    const { subGroup, amount } = transaction;
-    const updatedBankValues = { ...bankValues };
-    updatedBankValues[subGroup] = (updatedBankValues[subGroup] || 0) + Number(amount);
-    setBankValues(updatedBankValues);
-    localStorage.setItem('bankValues', JSON.stringify(updatedBankValues));
+    if (accountType === 'Ativos Circulares' && accountGroup === 'Contas Correntes') {
+      const updatedBankValues = { ...bankValues };
+      updatedBankValues[bank] = (updatedBankValues[bank] || 0) + Number(amount);
+      setBankValues(updatedBankValues);
+      localStorage.setItem('bankValues', JSON.stringify(updatedBankValues));
+    } else {
+      const newArrayTransactions = [...transactionsList, transaction];
+      setTransactionsList(newArrayTransactions);
+      localStorage.setItem('transactions', JSON.stringify(newArrayTransactions));
+    }
   };
 
   return (
@@ -55,14 +62,13 @@ const Home = () => {
       <Header />
       <Resume income={income} expense={expense} total={total} />
       <C.Container>
-        {Object.entries(bankValues).map(([bank, value]) => (
-          <BanckComponent
-            key={bank}
-            title={bank}
-            value={value}
-            setValue={value => setBankValues({ ...bankValues, [bank]: value })}
+        {(bankValues['Contas Correntes'] && bankValues['Contas Correntes'] !== 0) && (
+          <BankComponent
+            title="Contas Correntes"
+            value={bankValues['Contas Correntes']}
+            setValue={value => setBankValues({ ...bankValues, 'Contas Correntes': value })}
           />
-        ))}
+        )}
       </C.Container>
       <Form
         handleAdd={handleAdd}
@@ -74,3 +80,5 @@ const Home = () => {
 };
 
 export default Home;
+
+

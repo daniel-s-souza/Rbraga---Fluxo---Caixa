@@ -16,9 +16,15 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [accountSelected, setAccountSelected] = useState('Escolha uma Conta');
   const [availableGroups, setAvailableGroups] = useState('');
+  const [idCounter, setIdCounter] = useState(0);
 
 
-  const generateID = () => Math.round(Math.random() * 1000);
+  const generateID = () => {
+    const newId = idCounter + 1;
+    setIdCounter(newId);
+    return newId;
+  };
+  
 
   const handleSave = () => {
     if (!accountSelected || !group || !amount || !options) {
