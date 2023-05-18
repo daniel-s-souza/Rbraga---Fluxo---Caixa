@@ -18,7 +18,8 @@ function Grid({ itens, setItens }) {
 
   return (
     <>
-      <C.Table>
+    <C.TableContainer>
+    <C.Table>
         <C.Thead>
           <C.Tr>
           <C.Th width={4} alignCenter>ID</C.Th>
@@ -39,6 +40,7 @@ function Grid({ itens, setItens }) {
           ))}
         </C.Tbody>
       </C.Table>
+    </C.TableContainer>
       <Grafico data={tableData} />
     </>
   )

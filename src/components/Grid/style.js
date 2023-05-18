@@ -1,17 +1,24 @@
 import styled from "styled-components";
 
-export const Table = styled.table`
-
+export const TableContainer = styled.div`
   width: 100%;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0px 0px 5px #ccc;
-  border-radius: 5px;
   max-width: 1420px;
   margin: 20px auto;
   position: relative;
   top: 100px;
   overflow-x: auto;
+
+  @media (max-width: 768px) {
+    overflow-x: scroll;
+  }
+`;
+
+export const Table = styled.table`
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 5px #ccc;
+  border-radius: 5px;
 `;
 
 export const Thead = styled.thead``;
@@ -21,7 +28,6 @@ export const Tbody = styled.tbody``;
 export const Tr = styled.tr``;
 
 export const Th = styled.th`
-
   border-bottom: inset;
   padding-bottom: 5px;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
