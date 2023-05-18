@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/header';
 import Resume from '../../components/Resume';
 import Form from '../../components/form';
+import BankComponent from '../../components/banckComponent';
+import * as C from './styled';
 
 const Home = () => {
   const [transactionsList, setTransactionsList] = useState([]);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [total, setTotal] = useState(0);
+  const [idCounter, setIdCounter] = useState(1);
 
   useEffect(() => {
     const data = localStorage.getItem('transactions');
@@ -35,16 +38,24 @@ const Home = () => {
   }, [transactionsList]);
 
   const handleAdd = transaction => {
-    const newTransaction = { ...transaction, id: transactionsList.length + 1 };
+    const newTransaction = { ...transaction, id: idCounter };
     const newArrayTransactions = [...transactionsList, newTransaction];
     setTransactionsList(newArrayTransactions);
+    setIdCounter(prevCounter => prevCounter + 1);
     localStorage.setItem('transactions', JSON.stringify(newArrayTransactions));
   };
+
+  const filteredTransactions = transactionsList.filter(transaction => transaction.group === 'Contas Correntes');
 
   return (
     <>
       <Header />
       <Resume income={income} expense={expense} total={total} />
+      <C.Container>
+      {filteredTransactions.map(transaction => (
+        <BankComponent key={transaction.id} title={transaction.subGroup} value={transaction.amount} />
+      ))}
+      </C.Container>
       <Form
         handleAdd={handleAdd}
         transactionsList={transactionsList}
@@ -55,5 +66,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
