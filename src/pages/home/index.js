@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/header';
 import Resume from '../../components/Resume';
-import BankComponent from '../../components/banckComponent';
 import Form from '../../components/form';
-import * as C from './styled';
 
 const Home = () => {
   const [transactionsList, setTransactionsList] = useState([]);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [total, setTotal] = useState(0);
-  const [bankValues, setBankValues] = useState({});
 
   useEffect(() => {
     const data = localStorage.getItem('transactions');
     const savedTransactions = data ? JSON.parse(data) : [];
     setTransactionsList(savedTransactions);
-
-    const savedBankValues = localStorage.getItem('bankValues');
-    if (savedBankValues) {
-      setBankValues(JSON.parse(savedBankValues));
-    }
   }, []);
 
   useEffect(() => {
@@ -43,33 +35,16 @@ const Home = () => {
   }, [transactionsList]);
 
   const handleAdd = transaction => {
-    const { accountType, accountGroup, bank, amount } = transaction;
-
-    if (accountType === 'Ativos Circulares' && accountGroup === 'Contas Correntes') {
-      const updatedBankValues = { ...bankValues };
-      updatedBankValues[bank] = (updatedBankValues[bank] || 0) + Number(amount);
-      setBankValues(updatedBankValues);
-      localStorage.setItem('bankValues', JSON.stringify(updatedBankValues));
-    } else {
-      const newArrayTransactions = [...transactionsList, transaction];
-      setTransactionsList(newArrayTransactions);
-      localStorage.setItem('transactions', JSON.stringify(newArrayTransactions));
-    }
+    const newTransaction = { ...transaction, id: transactionsList.length + 1 };
+    const newArrayTransactions = [...transactionsList, newTransaction];
+    setTransactionsList(newArrayTransactions);
+    localStorage.setItem('transactions', JSON.stringify(newArrayTransactions));
   };
 
   return (
     <>
       <Header />
       <Resume income={income} expense={expense} total={total} />
-      <C.Container>
-        {(bankValues['Contas Correntes'] && bankValues['Contas Correntes'] !== 0) && (
-          <BankComponent
-            title="Contas Correntes"
-            value={bankValues['Contas Correntes']}
-            setValue={value => setBankValues({ ...bankValues, 'Contas Correntes': value })}
-          />
-        )}
-      </C.Container>
       <Form
         handleAdd={handleAdd}
         transactionsList={transactionsList}
