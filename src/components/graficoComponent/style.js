@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const ChartDiv = styled.div`
 display: flex;
-max-width: 1420px;
-margin: 20px auto;
+max-width: 40vw;
+margin-left: 35px;
 width: 98%;
 background-color: #fff;
 box-shadow: 0px 0px 5px #ccc;
@@ -16,4 +16,9 @@ position: relative;
 top: 100px;
 flex-wrap: wrap;
 height: 220px;
+`;
+
+export const DisplayChartsDiv = styled.div`
+  display: flex;
+  justify-content: space-around;
 `;

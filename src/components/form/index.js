@@ -17,8 +17,9 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [accountSelected, setAccountSelected] = useState('Escolha uma Conta');
   const [availableGroups, setAvailableGroups] = useState('');
   const [idCounter, setIdCounter] = useState(0);
-
-
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const [numberOfInstallments, setNumberOfInstallments] = useState('')
+ 
   const generateID = () => {
     const newId = idCounter + 1;
     setIdCounter(newId);
@@ -230,10 +231,10 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     const monthName = monthNames[monthIndex].charAt(0).toUpperCase() + monthNames[monthIndex].slice(1);
     return `${monthName}/${year}`;
   }
-  
-  
 
-
+  const showInstallments = () => {
+    return isExpense && paymentMethod === 'A prazo';
+  };
   return (
     <>
     <C.Container>
@@ -245,6 +246,29 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   ))}
 </C.Select>
 </C.InputContent>
+      {isExpense && (
+        <C.InputContent>
+          <C.Label>Método de Pagamento</C.Label>
+          <C.Select
+            value={paymentMethod}
+            onChange={(event) => setPaymentMethod(event.target.value)}
+          >
+            <option>Escolha Método</option>
+            <option>À vista</option>
+            <option>A prazo</option>
+          </C.Select>
+        </C.InputContent>
+      )}
+      {showInstallments() && (
+        <C.InputContent>
+          <C.Label>Número de Parcelas</C.Label>
+          <C.Input
+            type="number"
+            value={numberOfInstallments}
+            onChange={(event) => setNumberOfInstallments(event.target.value)}
+          />
+        </C.InputContent>
+      )}
 <C.InputContent>
   <C.Label> Conta</C.Label>
   <C.Select value={availableGroups} onChange={handleAccountChange}>

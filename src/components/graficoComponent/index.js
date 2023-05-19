@@ -25,6 +25,7 @@ function Grafico({ data }) {
   }, [data]);
 
   return (
+    <C.DisplayChartsDiv>
     <C.ChartDiv>
       <Chart
         chartType="PieChart"
@@ -34,9 +35,24 @@ function Grafico({ data }) {
           is3D: true,
         }}
         width={'100%'}
-        height={'200px'}
+        height={'150px'}
       />
     </C.ChartDiv>
+     <C.ChartDiv>
+     <Chart
+       chartType="BarChart" // Alteração aqui
+       data={chartData}
+       options={{
+         title: 'Dados por categoria',
+         chartArea: { width: '50%' }, // Definindo a largura do gráfico
+         hAxis: { title: 'Valor', minValue: 0 }, // Rótulo do eixo horizontal
+         vAxis: { title: 'Categoria' }, // Rótulo do eixo vertical
+       }}
+       width={'100%'}
+       height={'150px'} // Aumentando a altura para acomodar o gráfico de barras
+     />
+   </C.ChartDiv>
+    </C.DisplayChartsDiv>
   );
 }
 
