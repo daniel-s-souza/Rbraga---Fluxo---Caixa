@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ChartDiv = styled.div`
 display: flex;
 max-width: 40vw;
-margin-left: 35px;
+margin: 10px auto;
 width: 98%;
 background-color: #fff;
 box-shadow: 0px 0px 5px #ccc;
