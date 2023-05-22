@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import * as C from './style';
 import Grid from '../Grid';
 
@@ -21,6 +21,14 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [numberOfInstallments, setNumberOfInstallments] = useState(1);
   const [parcelasIguais, setParcelasIguais] = useState(true);
   const [valorParcelas, setValorParcelas] = useState('');
+
+
+  useEffect(() => {
+    if (parcelasIguais) {
+      const parcela = amount / numberOfInstallments;
+      setValorParcelas(parcela);
+    }
+  }, [amount, numberOfInstallments, parcelasIguais]);
 
  
   const generateID = () => {
@@ -247,27 +255,38 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setParcelasIguais(event.target.value === 'true');
   };
 
-  
+  const handleParcelasValue = () => {
+    if (!parcelasIguais) {
+      return renderInputs();
+    } 
+    return valorParcelas;
+  };
+
   const renderInputs = () => {
     const inputs = [];
-
-    if (!parcelasIguais) {
       for (let i = 0; i < numberOfInstallments; i++) {
         inputs.push(
           <div key={i}>
             <C.Label>
               Valor da parcela {i + 1}:
-              <C.Input 
-              onChange={(event) => setValorParcelas(event.target.value)}
-              type="number"
-              value={valorParcelas} />
+              <C.Input
+                onChange={(event) => handleParcelaInputChange(event, i)}
+                type="number"
+                value={valorParcelas[i] || ""}
+              />
             </C.Label>
           </div>
         );
-      }
     }
-
+  
     return inputs;
+  };
+  
+  const handleParcelaInputChange = (event, index) => {
+    const inputValue = event.target.value;
+    const updatedParcelas = [...valorParcelas];
+    updatedParcelas[index] = inputValue;
+    setValorParcelas(updatedParcelas);
   };
   
 
@@ -316,12 +335,12 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
           />
         </C.InputContent>
       )}
-      {!parcelasIguais && (
-        <C.InputContent>
-          <C.Label>Informe o valor das parcelas</C.Label>
-          {renderInputs()}
-        </C.InputContent>
-      )}
+      {!parcelasIguais ? (
+  <C.InputContent>
+    <C.Label>Informe o valor das parcelas</C.Label>
+    {handleParcelasValue()}
+  </C.InputContent>
+) : null}
 <C.InputContent>
   <C.Label> Conta</C.Label>
   <C.Select value={availableGroups} onChange={handleAccountChange}>
