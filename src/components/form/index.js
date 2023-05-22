@@ -18,7 +18,10 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [availableGroups, setAvailableGroups] = useState('');
   const [idCounter, setIdCounter] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState('');
-  const [numberOfInstallments, setNumberOfInstallments] = useState('')
+  const [numberOfInstallments, setNumberOfInstallments] = useState(1);
+  const [parcelasIguais, setParcelasIguais] = useState(true);
+  const [valorParcelas, setValorParcelas] = useState('');
+
  
   const generateID = () => {
     const newId = idCounter + 1;
@@ -46,6 +49,8 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       date: date,
       competencia: comp,
       account: accountSelected,
+      valorParcelas: valorParcelas, 
+      numberOfInstallments: numberOfInstallments,
     };
 
     handleAdd(transaction);
@@ -58,6 +63,8 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setDate('');
     setAccountSelected('Escolha uma Conta');
     setShowOptions(false);
+    setNumberOfInstallments(1);
+    setValorParcelas('');
   };
 
   const handleAccountChange = (event) => {
@@ -235,6 +242,35 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const showInstallments = () => {
     return isExpense && paymentMethod === 'A prazo';
   };
+
+  const handleParcelasIguaisChange = (event) => {
+    setParcelasIguais(event.target.value === 'true');
+  };
+
+  
+  const renderInputs = () => {
+    const inputs = [];
+
+    if (!parcelasIguais) {
+      for (let i = 0; i < numberOfInstallments; i++) {
+        inputs.push(
+          <div key={i}>
+            <C.Label>
+              Valor da parcela {i + 1}:
+              <C.Input 
+              onChange={(event) => setValorParcelas(event.target.value)}
+              type="number"
+              value={valorParcelas} />
+            </C.Label>
+          </div>
+        );
+      }
+    }
+
+    return inputs;
+  };
+  
+
   return (
     <>
     <C.Container>
@@ -259,6 +295,17 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
           </C.Select>
         </C.InputContent>
       )}
+         {showInstallments() && (
+        <C.InputContent>
+          <C.Label>Parcelas iguais?</C.Label>
+          <C.Select
+             value={parcelasIguais} onChange={handleParcelasIguaisChange}
+          >
+            <option value={true}>Sim</option>
+            <option value={false}>Não</option>
+          </C.Select>
+        </C.InputContent>
+      )}
       {showInstallments() && (
         <C.InputContent>
           <C.Label>Número de Parcelas</C.Label>
@@ -267,6 +314,12 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
             value={numberOfInstallments}
             onChange={(event) => setNumberOfInstallments(event.target.value)}
           />
+        </C.InputContent>
+      )}
+      {!parcelasIguais && (
+        <C.InputContent>
+          <C.Label>Informe o valor das parcelas</C.Label>
+          {renderInputs()}
         </C.InputContent>
       )}
 <C.InputContent>
