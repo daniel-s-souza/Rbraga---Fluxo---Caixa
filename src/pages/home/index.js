@@ -51,16 +51,33 @@ const Home = () => {
     localStorage.setItem('transactions', JSON.stringify(newArrayTransactions));
   };
 
-  const filteredTransactions = transactionsList.filter(transaction => transaction.group === 'Contas Correntes');
+  const groupBySubGroup = () => {
+    const groupedTransactions = {};
+    transactionsList.forEach(transaction => {
+      const { subGroup, amount } = transaction;
+      if (groupedTransactions[subGroup]) {
+        groupedTransactions[subGroup] += Number(amount);
+      } else {
+        groupedTransactions[subGroup] = Number(amount);
+      }
+    });
+    return groupedTransactions;
+  };
+
+  const filteredTransactions = groupBySubGroup();
 
   return (
     <>
       <Header />
-      <Resume income={income} expense={expense} toPay = {toPay} total={total} />
+      <Resume income={income} expense={expense} toPay={toPay} total={total} />
       <C.Container>
-      {filteredTransactions.map(transaction => (
-        <BankComponent key={transaction.id} title={transaction.subGroup} value={transaction.amount} />
-      ))}
+        {Object.keys(filteredTransactions).map(subGroup => (
+          <BankComponent
+            key={subGroup}
+            title={subGroup}
+            value={filteredTransactions[subGroup]}
+          />
+        ))}
       </C.Container>
       <Form
         handleAdd={handleAdd}
