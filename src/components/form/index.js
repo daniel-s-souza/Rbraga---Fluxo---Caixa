@@ -21,6 +21,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
   const [numberOfInstallments, setNumberOfInstallments] = useState(1);
   const [parcelasIguais, setParcelasIguais] = useState(true);
   const [valorParcelas, setValorParcelas] = useState('');
+  const [banckOptions, setBanckOptions] = useState('');
 
 
   useEffect(() => {
@@ -59,6 +60,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       account: accountSelected,
       valorParcelas: valorParcelas, 
       numberOfInstallments: numberOfInstallments,
+      banckOptions: banckOptions
     };
 
     handleAdd(transaction);
@@ -73,6 +75,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setShowOptions(false);
     setNumberOfInstallments(1);
     setValorParcelas('');
+    setBanckOptions('');
   };
 
   const handleAccountChange = (event) => {
@@ -427,7 +430,7 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
       {isExpense && (
         <C.InputContent>
           <C.Label>Conta a Debitar</C.Label>
-          <C.Select>
+          <C.Select value={banckOptions} onChange={(e) => setBanckOptions(e.target.value)}>
             {bankOptions.map((option) => (
           <option key={option} value={option}>
             {option}
