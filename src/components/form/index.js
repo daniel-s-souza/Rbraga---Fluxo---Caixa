@@ -289,6 +289,19 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
     setValorParcelas(updatedParcelas);
   };
   
+  const bankOptions = [
+    'Selecione uma opção',
+    'Pagamento em dinheiro',
+    'Caixa Econômica',
+    'Banco do Brasil',
+    'BNB',
+    'Inter',
+    'Pagveloz',
+    'Bradesco',
+    'Santander',
+    'C6',
+    'Outro',
+  ]
 
   return (
     <>
@@ -411,6 +424,18 @@ const Form = ({ handleAdd, transactionsList, setTransactionsList }) => {
         <C.Label>Descição</C.Label>
         <C.Input value={desc} onChange={(e) => setDesc(e.target.value)}/>
       </C.InputContent>
+      {isExpense && (
+        <C.InputContent>
+          <C.Label>Conta a Debitar</C.Label>
+          <C.Select>
+            {bankOptions.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+          ))}
+          </C.Select>
+        </C.InputContent>
+      )}
       <C.Button onClick={handleSave}>ADICIONAR</C.Button>
     </C.Container>
     <Grid itens={transactionsList} setItens={setTransactionsList}/>
